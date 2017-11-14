@@ -93,7 +93,7 @@ void Particle::SetParticlePX(double aPe, double aPx, double aPy, double aPz,
   eid = EIDi++;
 }
 
-const char* Particle::MakeTEXTEntry()
+string Particle::MakeTEXTEntry()
 {
   ostringstream oss;
 
@@ -108,7 +108,7 @@ const char* Particle::MakeTEXTEntry()
   oss << mass <<'\t';
   oss << e        <<'\t'<< px       <<'\t'<< py       <<'\t'<< pz       <<'\t';
   oss << t*kHbarC <<'\t'<< x*kHbarC <<'\t'<< y*kHbarC <<'\t'<< z*kHbarC <<'\n';
-  return oss.str().data();
+  return oss.str();
 }
 
 void Particle::ZeroEID()
