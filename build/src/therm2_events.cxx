@@ -245,8 +245,8 @@ void MessageVersion()
 void CopyINIFile()
 {
   TString  tINI;
-  ifstream ifs;
-  ofstream ofs;
+  std::ifstream ifs;
+  std::ofstream ofs;
 
   tINI = sMainINI;
   tINI.ReplaceAll("./",sEventDIR);
@@ -276,7 +276,7 @@ void AddLogEntry(const char* aEntry)
 {
   TString tLogName;
   TDatime tDate;
-  ofstream tFile;
+  std::ofstream tFile;
   
   tDate.Set();  
   try {
