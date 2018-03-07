@@ -16,7 +16,7 @@ class Therminator2ToHepMCParser
 {
   public:
     Therminator2ToHepMCParser();
-    Therminator2ToHepMCParser(std::string inputFileName, std::string outputFileName);
+    Therminator2ToHepMCParser(std::string inputFileName, std::string outputFileName, bool savePrimordialPositions);
        
     void Run();
   private:
@@ -26,6 +26,7 @@ class Therminator2ToHepMCParser
 
     std::string inputFileName;
     std::string outputFileName;
+    bool savePrimordialPositions;
 
     std::ifstream inputStream;
 

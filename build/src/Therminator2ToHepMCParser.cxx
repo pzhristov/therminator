@@ -8,10 +8,11 @@ Therminator2ToHepMCParser::Therminator2ToHepMCParser():_HepMC_writer(0)
     
 }
 
-Therminator2ToHepMCParser::Therminator2ToHepMCParser(string inputFileName, string outputFileName):_HepMC_writer(0)
+Therminator2ToHepMCParser::Therminator2ToHepMCParser(string inputFileName, string outputFileName, bool savePrimordialPositions):_HepMC_writer(0)
 {
     this->inputFileName = inputFileName;
     this->outputFileName = outputFileName;
+    this->savePrimordialPositions = savePrimordialPositions;
 }
 
 void Therminator2ToHepMCParser::Run()
@@ -131,21 +132,28 @@ void Therminator2ToHepMCParser::Run()
                 out_vertex = eidToVertex->at(_particle.fathereid);
             else
             {
-                // If it's a primordial particle, create a pseudo particle for connection
-                // and its production vertex. 
-                FourVector hyperVector(0, 0, 0, 0);
-                GenParticle* hypersurface = new GenParticle(hyperVector, 0, 0);
-                v->add_particle_out(hypersurface);
+                if(savePrimordialPositions)
+                {
+                    // If it's a primordial particle, create a pseudo particle for connection
+                    // and its production vertex. 
+                    FourVector hyperVector(0,0,.14e4, 1686.2977);
+                    GenParticle* hypersurface = new GenParticle(hyperVector, 2212, 2);
+                    v->add_particle_out(hypersurface);
 
-                out_vertex = new GenVertex();
-                out_vertex->add_particle_in(hypersurface);
-                parsed_event.add_vertex(out_vertex);
-                FourVector spaceTimePos(
-                            _particle.x*fm_to_mm,
-                            _particle.y*fm_to_mm, 
-                            _particle.z*fm_to_mm, 
-                            _particle.t*fm_to_mm);
-                out_vertex->set_position(spaceTimePos);
+                    out_vertex = new GenVertex();
+                    out_vertex->add_particle_in(hypersurface);
+                    parsed_event.add_vertex(out_vertex);
+                    FourVector spaceTimePos(
+                                _particle.x*fm_to_mm,
+                                _particle.y*fm_to_mm, 
+                                _particle.z*fm_to_mm, 
+                                _particle.t*fm_to_mm);
+                    out_vertex->set_position(spaceTimePos);
+                }
+                else
+                    // If we do not care about the positions of primordial particles
+                    // They are linked directly to the primary vertex
+                    out_vertex = v;
             }
             
             // If not already done, set the creation position
