@@ -106,7 +106,7 @@ endif
 CXX         = g++
 LD          = g++
 CXXFLAGS    = -O0 -g -Wno-deprecated -I $(DIR_H) $(PREPROCESS) `root-config --cflags`
-LFLAGS      =  -lgcc -g `root-config --libs` -lm
+LFLAGS      =  -g `root-config --libs` -lm
 
 #################################################################################
 # RULES                                                                         #
